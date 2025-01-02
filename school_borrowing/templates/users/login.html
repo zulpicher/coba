@@ -1,0 +1,26 @@
+<!-- templates/users/login.html -->
+
+{% extends 'base.html' %} {% block content %}
+  <div class="card p-5">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Email Field -->
+      <div class="form-group">
+        {{ form.email.label_tag }} {{ form.email }} {% if form.email.errors %}
+          <div class="text-danger">{{ form.email.errors }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        {{ form.password.label_tag }} {{ form.password }} {% if form.password.errors %}
+          <div class="text-danger">{{ form.password.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+  </div>
+{% endblock %}

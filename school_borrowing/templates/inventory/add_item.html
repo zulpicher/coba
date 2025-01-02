@@ -1,0 +1,79 @@
+<!-- templates/inventory/add_item.html -->
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white">
+            <h4 class="mb-0"><i class="fas fa-plus-circle"></i> Tambah Item</h4>
+          </div>
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+
+              <!-- Nama Field -->
+              <div class="form-group">
+                {{ form.nama.label_tag }}
+                {{ form.nama|add_class:'form-control' }}
+                {% if form.nama.errors %}
+                  <div class="invalid-feedback d-block">{{ form.nama.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Kategori Field -->
+              <div class="form-group">
+                {{ form.kategori.label_tag }}
+                {{ form.kategori|add_class:'form-control' }}
+                {% if form.kategori.errors %}
+                  <div class="invalid-feedback d-block">{{ form.kategori.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Status Field -->
+              <div class="form-group">
+                {{ form.status.label_tag }}
+                {{ form.status|add_class:'form-control' }}
+                {% if form.status.errors %}
+                  <div class="invalid-feedback d-block">{{ form.status.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Lokasi Field -->
+              <div class="form-group">
+                {{ form.lokasi.label_tag }}
+                {{ form.lokasi|add_class:'form-control' }}
+                {% if form.lokasi.errors %}
+                  <div class="invalid-feedback d-block">{{ form.lokasi.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Kapasitas Field -->
+              <div class="form-group">
+                {{ form.kapasitas.label_tag }}
+                {{ form.kapasitas|add_class:'form-control' }}
+                {% if form.kapasitas.errors %}
+                  <div class="invalid-feedback d-block">{{ form.kapasitas.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Gambar Field -->
+              <div class="form-group">
+                {{ form.gambar.label_tag }}
+                {{ form.gambar|add_class:'form-control-file' }}
+                {% if form.gambar.errors %}
+                  <div class="invalid-feedback d-block">{{ form.gambar.errors|striptags }}</div>
+                {% endif %}
+              </div>
+
+              <!-- Tombol Submit -->
+              <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> Tambah</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

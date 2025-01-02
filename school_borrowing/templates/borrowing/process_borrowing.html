@@ -1,0 +1,30 @@
+<!-- templates/borrowing/process_borrowing.html -->
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Proses Peminjaman</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <!-- Status Field -->
+          <div class="form-group">{{ form.status.label_tag }}
+            {{ form.status|add_class:'form-control' }}
+            {{ form.status.errors }}</div>
+
+          <!-- Reason Field -->
+          <div class="form-group">{{ form.reason.label_tag }}
+            {{ form.reason|add_class:'form-control' }}
+            {{ form.reason.errors }}</div>
+
+          <!-- Tombol Submit -->
+          <button type="submit" class="btn btn-success">Proses Peminjaman</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

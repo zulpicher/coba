@@ -1,0 +1,98 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>RKS-308</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dY4ebzD+4QK1bv0yrD6V5PCHeE2L+OcjT0e1D0fC3z0JkzEw4yy4WZ6fPj5f0K5HjN9fFowhQmtGXHhC8E7hyg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Web Borang RKS-308</a>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+              {% if user.role == 'admin' %}
+                <li class="nav-item {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'admin_dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'inventory_list' %}">Inventory</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'borrowing_list' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'borrowing_list' %}">Peminjaman</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'notifikasi_admin' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'notifikasi_admin' %}">Notifikasi</a>
+                </li>
+              {% elif user.role == 'siswa' %}
+                <li class="nav-item {% if request.resolver_match.url_name == 'siswa_dashboard' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'siswa_dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'submit_borrowing' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'submit_borrowing' %}">Ajukan Peminjaman</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'borrowing_history' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'borrowing_history' %}">Histori</a>
+                </li>
+                <li class="nav-item {% if request.resolver_match.url_name == 'notifikasi_siswa' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'notifikasi_siswa' %}">Notifikasi</a>
+                </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item {% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+            {% endif %}
+          </ul>
+          {% if user.is_authenticated %}
+            <span class="navbar-text">Halo, {{ user.nama }}!</span>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mt-4">
+      <!-- Flash Messages -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Content Block -->
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3">
+        ©{% now 'Y' %}RKS-308. Project Based Learning.
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXd16UGmHgGsK95i3gy86d+08ry4n0LmyKnrjcHGp2ffE7rP/ZC5cdc9vCbun1z" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldkIYhllruoXkYt9uQFUmGhT5d3I8b0rvkttK78" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOUeFxn2Q6rEw5P/DeRZZ1aDjxQjg9gY2N6TWmJXhkU98aV" crossorigin="anonymous"></script>
+  </body>
+</html>

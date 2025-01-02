@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container mt-5">
+    <!-- Header dan Judul -->
+    <div class="mb-4">
+      <h2 class="mb-3">Dashboard Siswa</h2>
+      <h4 class="text-muted">Daftar Item</h4>
+    </div>
+
+    <!-- Kartu untuk Tabel Item -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <!-- Tabel Item yang Responsif -->
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Status</th>
+                <th>Lokasi</th>
+                <th>Gambar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in all_items %}
+                <tr>
+                  <td>{{ item.nama }}</td>
+                  <td>{{ item.kategori.nama }}</td>
+                  <td>
+                    {% if item.status == 'tersedia' %}
+                      <span class="badge badge-success">Tersedia</span>
+                    {% elif item.status == 'dipinjam' %}
+                      <span class="badge badge-warning">Dipinjam</span>
+                    {% else %}
+                      <span class="badge badge-secondary">{{ item.get_status_display }}</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ item.lokasi }}</td>
+                  <td>
+                    {% if item.gambar %}
+                      <img src="{{ item.gambar.url }}" alt="{{ item.nama }}" class="img-fluid" style="max-width: 100px;" />
+                    {% else %}
+                      <span class="text-muted">Tidak ada gambar</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">Tidak ada item tersedia.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

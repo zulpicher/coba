@@ -1,0 +1,28 @@
+<!-- templates/borrowing/submit_borrowing.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %} <!-- Jika menggunakan widget_tweaks -->
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Ajukan Peminjaman</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-group">
+              {{ field.label_tag }}
+              {{ field|add_class:'form-control' }}
+              {% if field.errors %}
+                <div class="text-danger">{{ field.errors }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary">Ajukan</button>
+          <a href="{% url 'siswa_dashboard' %}" class="btn btn-secondary">Batal</a> <!-- Ganti 'siswa_dashboard' dengan nama URL yang valid -->
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

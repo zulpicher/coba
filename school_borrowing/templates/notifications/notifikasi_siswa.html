@@ -1,0 +1,56 @@
+<!-- templates/notifications/notifikasi_siswa.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Notifikasi Siswa</h2>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Pesan</th>
+              <th>Tanggal/Waktu</th>
+              <th>Status</th>
+              <th>Alasan</th> <!-- Kolom baru untuk alasan -->
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for notif in notifications %}
+              <tr>
+                <td>{{ notif.pesan }}</td>
+                <td>{{ notif.tanggal_waktu|date:'d M Y H:i' }}</td>
+                <td>
+                  {% if notif.status == 'terkirim' %}
+                    <span class="badge badge-warning">Terkirim</span>
+                  {% elif notif.status == 'dibaca' %}
+                    <span class="badge badge-success">Dibaca</span>
+                  {% else %}
+                    <span class="badge badge-secondary">{{ notif.get_status_display }}</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if notif.reason %}
+                    {{ notif.reason }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+                <td>
+                  {% if notif.status == 'terkirim' %}
+                    <a href="{% url 'mark_as_read' notif.id %}" class="btn btn-sm btn-primary">Tandai Sebagai Dibaca</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="text-center">Tidak ada notifikasi.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

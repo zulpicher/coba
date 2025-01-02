@@ -1,33 +1,36 @@
 # users/models.py
+
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, nama, role, password=None, kelas=None):
+    def create_user(self, email, nama, role, password=None, **extra_fields):
         if not email:
-            raise ValueError("Users must have an email address")
+            raise ValueError('User harus memiliki email')
         email = self.normalize_email(email)
-        user = self.model(email=email, nama=nama, role=role, kelas=kelas)
+        user = self.model(email=email, nama=nama, role=role, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_admin(self, email, nama, password=None):
-        return self.create_user(email, nama, 'Admin', password)
-
-    def create_student(self, email, nama, password=None, kelas=None):
-        return self.create_user(email, nama, 'Siswa', password, kelas)
+    def create_superuser(self, email, nama, role, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, nama, role, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
-        ('Admin', 'Admin'),
-        ('Siswa', 'Siswa'),
+        ('admin', 'Admin'),
+        ('siswa', 'Siswa'),
     )
     id = models.AutoField(primary_key=True)
-    nama = models.CharField(max_length=100)
+    nama = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-    kelas = models.CharField(max_length=20, null=True, blank=True)  # Hanya untuk siswa
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     objects = UserManager()
 
@@ -36,7 +39,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-    class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
