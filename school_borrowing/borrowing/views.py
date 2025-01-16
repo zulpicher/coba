@@ -89,25 +89,3 @@ def check_conflict(item, start, end):
     )
     return conflicts.exists()
 
-@admin_required
-def admin_dashboard(request):
-    # **Aktivitas Terbaru**
-    
-    # 1. Peminjaman Terbaru
-    recent_borrowings = Borrowing.objects.all().order_by('-start_date')[:5]  # Mengambil 5 peminjaman terbaru
-    
-    # 2. Pendaftaran User Terbaru
-    recent_users = User.objects.all().order_by('-date_joined')[:5]  # Menggunakan date_joined
-    
-    # **Notifikasi**
-    # Mengambil semua notifikasi untuk admin
-    admin_notifications = Notifikasi.objects.filter(user__role='admin').order_by('-tanggal_waktu')[:5]  # 5 notifikasi terbaru
-    
-    context = {
-        'recent_borrowings': recent_borrowings,
-        'recent_users': recent_users,
-        'admin_notifications': admin_notifications,
-        'borrowings': Borrowing.objects.all(),  # Untuk statistik cards
-    }
-    
-    return render(request, 'users/admin_dashboard.html', context)

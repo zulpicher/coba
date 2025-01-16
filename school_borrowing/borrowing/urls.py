@@ -7,6 +7,5 @@ urlpatterns = [
     path('submit/', views.submit_borrowing, name='submit_borrowing'),
     path('admin/list/', views.borrowing_list, name='borrowing_list'),
     path('admin/process/<int:borrowing_id>/', views.process_borrowing, name='process_borrowing'),
-    #path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('history/', views.borrowing_history, name='borrowing_history'),
 ]

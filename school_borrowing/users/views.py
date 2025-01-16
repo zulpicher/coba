@@ -8,7 +8,6 @@ from borrowing.models import Borrowing
 from inventory.models import InventoryItem
 from notifications.models import Notifikasi
 from users.models import User
-from django.contrib import messages
 
 def home(request):
     if request.user.is_authenticated:
